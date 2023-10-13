@@ -13,19 +13,26 @@ def parse_and_print_content(link):
             soup = BeautifulSoup(response.content, 'html.parser')
             # Extract and print the content (modify selectors accordingly based on the website's structure)
             title = soup.find('h1').text.strip()
-            content = soup.find(class_=re.compile("index_main_content.*")).text.strip()
-            images=soup.find_all("img",{'data-lazyload':re.compile(".*")})
+            ps = soup.find(class_=re.compile(
+                "index_main_content.*")).find_all("p", class_="")
+            content = []
+            for p in ps:
+                content.append(p.text.strip())
+            images = soup.find_all("img", {'data-lazyload': re.compile(".*")})
+
+            imgs = []
+            for image in images:
+                imgs.append(image['data-lazyload'])
             print("Title:", title)
-            print("Content:", content)
-           
-            #for img in images:
-            #	print(img['data-lazyload'])
-            	
+            print("Content:", "\n\n".join(content))
+            print("Images:\n", "\n\n".join(imgs))
+
             print("-" * 30)
         else:
             print("Failed to retrieve the page:", link)
     except requests.exceptions.RequestException as e:
         print("Error:", e)
+
 
 def parse_news(url):
     try:
@@ -41,12 +48,13 @@ def parse_news(url):
 
         for h2 in h2_elements:
             link = h2.find('a')
-            href=urljoin(url,link['href'])
-         
+            href = urljoin(url, link['href'])
+
             if link:
-               parse_and_print_content(href)
+                parse_and_print_content(href)
     except requests.exceptions.RequestException as e:
         print("Error:", e)
+
 
 # Example usage
 start_url = 'https://news.ifeng.com/'

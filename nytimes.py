@@ -9,7 +9,7 @@ def parse_and_print_content(link):
     try:
         response = requests.get(link)
         if response.status_code == 200:
-            content = []
+
             soup = BeautifulSoup(response.content, 'html.parser')
             # Extract and print the content (modify selectors accordingly based on the website's structure)
 
@@ -17,7 +17,8 @@ def parse_and_print_content(link):
                 'div', class_='article-header').find('header').text.strip()
 
             paragraphs = soup.find_all(
-                'div', class_='article-paragraph')  # .text.strip()
+                'div', class_='article-paragraph')
+            content = []
             for p in paragraphs:
                 if p.find('figure'):
                     continue
@@ -25,7 +26,7 @@ def parse_and_print_content(link):
 
             # images=soup.find_all("img",{'data-lazyload':re.compile(".*")})
             print("Title:", article_header)
-            print("Content:", content)
+            print("Content:", "\n\n".join(content))
 
             # for img in images:
             # print(img['data-lazyload'])
