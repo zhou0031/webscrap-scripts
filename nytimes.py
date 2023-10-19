@@ -1,6 +1,5 @@
 import requests
 import re
-import spacy
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 
@@ -27,8 +26,7 @@ def parse_and_print_content(link):
             # images=soup.find_all("img",{'data-lazyload':re.compile(".*")})
             print("Title:", article_header)
             print("Content:", "\n\n".join(content))
-
-            # for img in images:
+           # for img in images:
             # print(img['data-lazyload'])
 
             print("-" * 30)
