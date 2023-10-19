@@ -1,6 +1,5 @@
 import requests
 import re
-import spacy
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 from collections import Counter
